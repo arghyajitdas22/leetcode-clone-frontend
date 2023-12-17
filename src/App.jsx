@@ -1,11 +1,11 @@
 import "./App.css";
-import Header from "./components/Header/Header";
+import AuthPage from "./components/Pages/AuthPage";
 
 function App() {
   return (
-    <div>
-      <Header />
-    </div>
+    <>
+      <AuthPage />
+    </>
   );
 }
 
