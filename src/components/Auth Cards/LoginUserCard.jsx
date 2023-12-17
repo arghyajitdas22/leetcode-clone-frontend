@@ -23,7 +23,7 @@ const LoginUserCard = ({ handleClick }) => {
           key={item.placeholder}
         />
       ))}
-      <BlueBtn />
+      <BlueBtn text={"Log In"} />
       <p className="w-full flex items-center justify-between text-[#546e7a] text-[14px] font-light">
         <span className="">Forgot password?</span>
         <span onClick={handleClick} className="cursor-pointer">
