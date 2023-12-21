@@ -1,12 +1,10 @@
 import React from "react";
+import { useLoaderData } from "react-router-dom";
 
 const SingleQuestionPage = () => {
-  return (
-    <div>
-      single Question Page
-      {/* single question */}
-    </div>
-  );
+  const problem = useLoaderData();
+
+  return <div>{problem.Title}</div>;
 };
 
 export default SingleQuestionPage;

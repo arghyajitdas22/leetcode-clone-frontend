@@ -13,7 +13,7 @@ const AuthPage = () => {
 
   return (
     <div className="min-h-[100vh] w-full max-w-[100vw] bg-[#ECEFF1]">
-      <Header />
+      <Header isLoggedIn={false} />
       <AuthLayout>
         {toogleAuth ? (
           <RegisterUserCard handleClick={handleClick} />
