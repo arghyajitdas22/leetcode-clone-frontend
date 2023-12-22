@@ -16,6 +16,23 @@ const problemsArray = [
     Solution: <AiOutlineSolution color="violet" />,
     Acceptance: 55.1,
     Difficulty: "Easy",
+    description:
+      "Given an integer x, return true if x is a palindrome, and false otherwise.",
+    examples: [
+      {
+        input: "x = 121",
+        output: "true",
+      },
+      {
+        input: "x = -121",
+        output: "false",
+      },
+      {
+        input: "x = 10",
+        output: "false",
+      },
+    ],
+    constraints: ["-231 <= x <= 231 - 1"],
     _id: 1,
   },
   {
