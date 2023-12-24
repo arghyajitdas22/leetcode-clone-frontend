@@ -35,30 +35,30 @@ const problemsArray = [
     constraints: ["-231 <= x <= 231 - 1"],
     _id: 1,
   },
-  {
-    Status: "",
-    Title: "Two Sum",
-    Solution: <AiOutlineSolution color="violet" />,
-    Acceptance: 51.3,
-    Difficulty: "Easy",
-    _id: 2,
-  },
-  {
-    Status: "",
-    Title: "Median of two sorted arrays",
-    Solution: <AiOutlineSolution color="violet" />,
-    Acceptance: 38.7,
-    Difficulty: "Hard",
-    _id: 3,
-  },
-  {
-    Status: "",
-    Title: "Longest substring without repeating characters",
-    Solution: <AiOutlineSolution color="violet" />,
-    Acceptance: 34.3,
-    Difficulty: "Medium",
-    _id: 4,
-  },
+  // {
+  //   Status: "",
+  //   Title: "Two Sum",
+  //   Solution: <AiOutlineSolution color="violet" />,
+  //   Acceptance: 51.3,
+  //   Difficulty: "Easy",
+  //   _id: 2,
+  // },
+  // {
+  //   Status: "",
+  //   Title: "Median of two sorted arrays",
+  //   Solution: <AiOutlineSolution color="violet" />,
+  //   Acceptance: 38.7,
+  //   Difficulty: "Hard",
+  //   _id: 3,
+  // },
+  // {
+  //   Status: "",
+  //   Title: "Longest substring without repeating characters",
+  //   Solution: <AiOutlineSolution color="violet" />,
+  //   Acceptance: 34.3,
+  //   Difficulty: "Medium",
+  //   _id: 4,
+  // },
 ];
 
 const router = createBrowserRouter([
@@ -81,7 +81,6 @@ const router = createBrowserRouter([
         path: ":id",
         element: <SingleQuestionPage />,
         loader: ({ params }) => {
-          console.log(problemsArray[params.id - 1]);
           return problemsArray[params.id - 1];
         },
       },

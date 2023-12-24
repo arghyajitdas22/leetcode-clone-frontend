@@ -8,9 +8,16 @@ const SingleQuestionPage = () => {
   const problem = useLoaderData();
 
   return (
-    <SplitPane split="vertical" minSize={375} defaultSize={400} maxSize={800}>
+    <SplitPane
+      split="vertical"
+      minSize={375}
+      defaultSize={1100}
+      maxSize={1250}
+      primary="second"
+      style={{ marginTop: "10px", height: "91vh" }}
+    >
       <QuestionDisplay problem={problem} />
-      <CodeEditor />
+      <CodeEditor testcases={problem.examples} />
     </SplitPane>
   );
 };

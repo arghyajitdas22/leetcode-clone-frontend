@@ -15,7 +15,7 @@ const QuestionDisplay = ({ problem }) => {
   };
 
   return (
-    <div className=" rounded-xl bg-[#282828] min-h-screen">
+    <div className=" rounded-t-xl bg-[#282828] h-[91vh] overflow-y-auto">
       {/* header */}
       <div className="bg-[#303030] rounded-t-xl h-8 flex items-center pl-5">
         <span className="text-white text-sm">Problem Statement</span>
@@ -39,12 +39,12 @@ const QuestionDisplay = ({ problem }) => {
             <div className="pl-3">
               <p className="flex items-center space-x-1 text-white">
                 <span className="font-semibold">Input:</span>
-                <span>{example.input}</span>
+                <span className=" text-gray-400">{example.input}</span>
               </p>
 
               <p className="flex items-center space-x-1 text-white">
                 <span className="font-semibold">Output:</span>
-                <span>{example.output}</span>
+                <span className=" text-gray-400">{example.output}</span>
               </p>
             </div>
           </div>
