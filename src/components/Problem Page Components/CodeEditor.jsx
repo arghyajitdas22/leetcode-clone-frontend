@@ -11,7 +11,8 @@ const CodeEditor = ({ testcases }) => {
   const [selectedLanguage, setSelectedLanguage] = useState(languageOptions[0]);
   const [isConsoleOpen, setIsConsoleOpen] = useState(false);
   const [activeCase, setActiveCase] = useState(1);
-  const [customInput, setCustomInput] = useState("");
+  const [customInput, setCustomInput] = useState(121);
+  const [outputDetails, setOutputDetails] = useState(null);
 
   const handleEditorChange = (value, event) => {
     setValue(value);
@@ -30,8 +31,37 @@ const CodeEditor = ({ testcases }) => {
     setSelectedLanguage(sl);
   };
 
+  const checkStatus = async (token) => {
+    const options = {
+      method: "GET",
+      url: import.meta.env.VITE_RAPID_API_URL + "/" + token,
+      params: { base64_encoded: "true", fields: "*" },
+      headers: {
+        "X-RapidAPI-Host": import.meta.env.VITE_RAPID_API_HOST,
+        "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API_KEY,
+      },
+    };
+
+    try {
+      const response = await axios.request(options);
+      const statusId = response.data.status_id;
+
+      if (statusId == 1 || statusId == 2) {
+        setTimeout(() => {
+          checkStatus(token);
+        }, 2000);
+        return;
+      } else {
+        console.log(response.data);
+        setOutputDetails(response.data);
+        setIsConsoleOpen(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async () => {
-    // console.log(value);
     const formData = {
       language_id: selectedLanguage.id,
       source_code: btoa(value),
@@ -51,10 +81,14 @@ const CodeEditor = ({ testcases }) => {
       data: formData,
     };
 
-    axios
-      .request(options)
-      .then((response) => console.log(response.data))
-      .catch((error) => console.log(error));
+    try {
+      const response = await axios.request(options);
+      // console.log(response.data.token);
+      const token = response.data.token;
+      checkStatus(token);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -115,8 +149,8 @@ const CodeEditor = ({ testcases }) => {
 
         {isConsoleOpen && (
           <div className="px-7 overflow-y-auto mt-2">
-            <span className="text-white font-medium">TestCases</span>
-            <div className="flex items-center space-x-3 mt-2">
+            <span className="text-white font-medium">Compiler Messages</span>
+            {/* <div className="flex items-center space-x-3 mt-2">
               {testcases.map((testcase, index) => (
                 <span
                   key={index}
@@ -130,7 +164,32 @@ const CodeEditor = ({ testcases }) => {
                   Case {index + 1}
                 </span>
               ))}
-            </div>
+            </div> */}
+
+            {outputDetails && (
+              <div className="text-white mt-2">
+                <p>
+                  Status:{" "}
+                  <span
+                    className={`${
+                      outputDetails.status_id === 3
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {outputDetails?.status?.description}
+                  </span>
+                </p>
+                {outputDetails?.stdout && (
+                  <p>
+                    Output:{" "}
+                    {atob(outputDetails.stdout) !== null
+                      ? `${atob(outputDetails.stdout)}`
+                      : null}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>
