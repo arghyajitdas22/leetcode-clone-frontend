@@ -1,15 +1,15 @@
 import React from "react";
 
 const QuestionDisplay = ({ problem }) => {
-  const { _id, Title, Difficulty, Status, description, examples, constraints } =
+  const { _id, title, difficulty, status, description, examples, constraints } =
     problem;
 
   const textColor = () => {
-    if (Difficulty === "Easy") {
+    if (difficulty === "Easy") {
       return "text-green-500";
-    } else if (Difficulty === "Medium") {
+    } else if (difficulty === "Medium") {
       return "text-yellow-500";
-    } else if (Difficulty === "Hard") {
+    } else if (difficulty === "Hard") {
       return "text-red-500";
     }
   };
@@ -23,11 +23,9 @@ const QuestionDisplay = ({ problem }) => {
       {/* body */}
       <div className="px-5 py-3">
         {/* title div */}
-        <p className="text-white text-lg">
-          {_id}. {Title}
-        </p>
+        <p className="text-white text-lg">{title}</p>
         {/* difficulty div */}
-        <span className={`${textColor()} mt-4 text-xs`}>{Difficulty}</span>
+        <span className={`${textColor()} mt-4 text-xs`}>{difficulty}</span>
         {/* description */}
         <p className="text-white mt-4">{description}</p>
         {/* examples */}

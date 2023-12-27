@@ -7,59 +7,7 @@ import AllProblemsPage from "./components/Pages/AllProblemsPage.jsx";
 import SingleQuestionPage from "./components/Pages/SingleQuestionPage.jsx";
 import ProblemsPageLayout from "./components/Pages/ProblemsPageLayout.jsx";
 
-import { AiOutlineSolution } from "react-icons/ai";
-
-const problemsArray = [
-  {
-    Status: "",
-    Title: "Plaindrome Number",
-    Solution: <AiOutlineSolution color="violet" />,
-    Acceptance: 55.1,
-    Difficulty: "Easy",
-    description:
-      "Given an integer x, return true if x is a palindrome, and false otherwise.",
-    examples: [
-      {
-        input: "x = 121",
-        output: "true",
-      },
-      {
-        input: "x = -121",
-        output: "false",
-      },
-      {
-        input: "x = 10",
-        output: "false",
-      },
-    ],
-    constraints: ["-231 <= x <= 231 - 1"],
-    _id: 1,
-  },
-  // {
-  //   Status: "",
-  //   Title: "Two Sum",
-  //   Solution: <AiOutlineSolution color="violet" />,
-  //   Acceptance: 51.3,
-  //   Difficulty: "Easy",
-  //   _id: 2,
-  // },
-  // {
-  //   Status: "",
-  //   Title: "Median of two sorted arrays",
-  //   Solution: <AiOutlineSolution color="violet" />,
-  //   Acceptance: 38.7,
-  //   Difficulty: "Hard",
-  //   _id: 3,
-  // },
-  // {
-  //   Status: "",
-  //   Title: "Longest substring without repeating characters",
-  //   Solution: <AiOutlineSolution color="violet" />,
-  //   Acceptance: 34.3,
-  //   Difficulty: "Medium",
-  //   _id: 4,
-  // },
-];
+import axios from "axios";
 
 const router = createBrowserRouter([
   {
@@ -73,15 +21,47 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <AllProblemsPage />,
-        loader: () => {
-          return problemsArray;
+        loader: async () => {
+          const token = localStorage.getItem("token");
+
+          const options = {
+            method: "GET",
+            url: "http://localhost:3000/api/v1/questions",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
+
+          try {
+            const response = await axios.request(options);
+            const problemsArray = response.data.questions;
+            return problemsArray;
+          } catch (error) {
+            console.log(error);
+          }
         },
       },
       {
         path: ":id",
         element: <SingleQuestionPage />,
-        loader: ({ params }) => {
-          return problemsArray[params.id - 1];
+        loader: async ({ params }) => {
+          const token = localStorage.getItem("token");
+
+          const options = {
+            method: "GET",
+            url: `http://localhost:3000/api/v1/questions/${params.id}`,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
+
+          try {
+            const response = await axios.request(options);
+            const question = response.data.question;
+            return question;
+          } catch (error) {
+            console.log(error);
+          }
         },
       },
     ],

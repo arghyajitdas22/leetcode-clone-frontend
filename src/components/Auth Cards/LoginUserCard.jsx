@@ -1,23 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import InputBox from "./InputBox";
 import BlueBtn from "./BlueBtn";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LoginUserCard = ({ handleClick }) => {
   const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const InputBoxArray = [
     {
       type: "email",
       placeholder: "Enter email",
+      setFunc: setEmail,
     },
     {
       type: "password",
       placeholder: "Enter password",
+      setFunc: setPassword,
     },
   ];
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    const formData = {
+      email,
+      password,
+    };
+
+    const options = {
+      method: "POST",
+      url: "http://localhost:3000/api/v1/auth/login",
+      data: formData,
+    };
+
+    const response = await axios.request(options);
+
+    localStorage.setItem("token", response.data.token);
+
     navigate("/questions");
   };
 
@@ -28,6 +49,7 @@ const LoginUserCard = ({ handleClick }) => {
           type={item.type}
           placeholder={item.placeholder}
           key={item.placeholder}
+          setFunc={item.setFunc}
         />
       ))}
       <BlueBtn text={"Log In"} handleClick={onSubmit} />
