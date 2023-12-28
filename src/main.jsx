@@ -1,7 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+} from "react-router-dom";
 import AuthPage from "./components/Pages/AuthPage.jsx";
 import AllProblemsPage from "./components/Pages/AllProblemsPage.jsx";
 import SingleQuestionPage from "./components/Pages/SingleQuestionPage.jsx";
@@ -13,6 +17,29 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <AuthPage />,
+    loader: async () => {
+      const token = localStorage.getItem("token") || null;
+      if (token) {
+        const options = {
+          url: "http://localhost:3000/api/v1/auth/sessionauth",
+          method: "POST",
+          data: { token },
+        };
+
+        try {
+          const response = await axios.request(options);
+          const msg = response.data.message;
+
+          if (msg === "token active") {
+            return redirect("/questions");
+          } else return null;
+        } catch (error) {
+          console.log(error);
+          return null;
+        }
+      }
+      return null;
+    },
   },
   {
     path: "/questions/",
@@ -38,6 +65,7 @@ const router = createBrowserRouter([
             return problemsArray;
           } catch (error) {
             console.log(error);
+            return redirect("/");
           }
         },
       },
@@ -61,6 +89,7 @@ const router = createBrowserRouter([
             return question;
           } catch (error) {
             console.log(error);
+            return redirect("/");
           }
         },
       },
