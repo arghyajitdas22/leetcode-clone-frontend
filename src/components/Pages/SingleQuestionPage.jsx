@@ -17,7 +17,10 @@ const SingleQuestionPage = () => {
       style={{ marginTop: "10px", height: "91vh" }}
     >
       <QuestionDisplay problem={problem} />
-      <CodeEditor testcases={problem.examples} />
+      <CodeEditor
+        customInput={problem.customInput}
+        customOutput={problem.customOutput}
+      />
     </SplitPane>
   );
 };

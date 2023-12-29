@@ -6,12 +6,11 @@ import LanguageDropdown from "./LanguageDropdown";
 import { languageOptions } from "../constants/languageOptions";
 import axios from "axios";
 
-const CodeEditor = ({ testcases }) => {
+const CodeEditor = ({ customInput, customOutput }) => {
   const [value, setValue] = useState();
   const [selectedLanguage, setSelectedLanguage] = useState(languageOptions[0]);
+  const [state, setState] = useState(false);
   const [isConsoleOpen, setIsConsoleOpen] = useState(false);
-  const [activeCase, setActiveCase] = useState(1);
-  const [customInput, setCustomInput] = useState(121);
   const [outputDetails, setOutputDetails] = useState(null);
 
   const handleEditorChange = (value, event) => {
@@ -20,10 +19,6 @@ const CodeEditor = ({ testcases }) => {
 
   const handleConsoleClick = () => {
     setIsConsoleOpen(!isConsoleOpen);
-  };
-
-  const handleCaseClick = (index) => {
-    setActiveCase(index + 1);
   };
 
   const handleLanguageChange = (sl) => {
@@ -52,8 +47,8 @@ const CodeEditor = ({ testcases }) => {
         }, 2000);
         return;
       } else {
-        console.log(response.data);
         setOutputDetails(response.data);
+        getState(response.data.status_id);
         setIsConsoleOpen(true);
       }
     } catch (error) {
@@ -66,6 +61,7 @@ const CodeEditor = ({ testcases }) => {
       language_id: selectedLanguage.id,
       source_code: btoa(value),
       stdin: btoa(customInput),
+      expected_output: btoa(customOutput),
     };
 
     const options = {
@@ -91,6 +87,14 @@ const CodeEditor = ({ testcases }) => {
     }
   };
 
+  const getState = (statusId) => {
+    if (statusId === 3) {
+      setState(true);
+    } else if (statusId === 4) {
+      setState(false);
+    }
+  };
+
   return (
     <div className="rounded-t-xl bg-[#282828] h-[91vh]">
       {/* header */}
@@ -102,7 +106,7 @@ const CodeEditor = ({ testcases }) => {
       <div className="p-2">
         <Editor
           // width={`100%`}
-          height={`${isConsoleOpen ? `60vh` : `77vh`}`}
+          height={`${isConsoleOpen ? `59vh` : `77vh`}`}
           language={selectedLanguage.value}
           value={value}
           defaultValue="// some comment"
@@ -113,7 +117,7 @@ const CodeEditor = ({ testcases }) => {
       {/* console */}
       <div
         className={`${
-          isConsoleOpen ? "h-44 " : "h-11 "
+          isConsoleOpen ? "h-[calc(91vh-59vh)]" : "h-11 "
         } rounded-t-xl bg-[#303030] `}
       >
         <div className="rounded-t-xl bg-[#303030] flex items-center h-11 justify-between px-5 border-b border-black">
@@ -148,23 +152,8 @@ const CodeEditor = ({ testcases }) => {
         </div>
 
         {isConsoleOpen && (
-          <div className="px-7 overflow-y-auto mt-2">
+          <div className="px-7 overflow-y-auto">
             <span className="text-white font-medium">Compiler Messages</span>
-            {/* <div className="flex items-center space-x-3 mt-2">
-              {testcases.map((testcase, index) => (
-                <span
-                  key={index}
-                  className={`${
-                    index + 1 === activeCase
-                      ? "px-4 py-1 bg-[#ffffff1a] text-white text-sm rounded-md"
-                      : "text-[#eff1f6bf] text-sm"
-                  } cursor-pointer`}
-                  onClick={() => handleCaseClick(index)}
-                >
-                  Case {index + 1}
-                </span>
-              ))}
-            </div> */}
 
             {outputDetails && (
               <div className="text-white mt-2">
@@ -177,16 +166,31 @@ const CodeEditor = ({ testcases }) => {
                         : "text-red-500"
                     }`}
                   >
-                    {outputDetails?.status?.description}
+                    {outputDetails.status_id === 3
+                      ? "Compiled Successfully"
+                      : outputDetails?.status?.description}
                   </span>
                 </p>
                 {outputDetails?.stdout && (
-                  <p>
-                    Output:{" "}
-                    {atob(outputDetails.stdout) !== null
-                      ? `${atob(outputDetails.stdout)}`
-                      : null}
-                  </p>
+                  <div>
+                    <p>
+                      State:{" "}
+                      <span
+                        className={`${
+                          state ? "text-green-500" : "text-red-500"
+                        }`}
+                      >
+                        {state ? "Correct Answer" : "Wrong Answer"}
+                      </span>
+                    </p>
+                    <p>Expected: {customOutput}</p>
+                    <p>
+                      Output:{" "}
+                      {atob(outputDetails.stdout) !== null
+                        ? `${atob(outputDetails.stdout)}`
+                        : null}
+                    </p>
+                  </div>
                 )}
               </div>
             )}
