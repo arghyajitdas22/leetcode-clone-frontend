@@ -61,8 +61,15 @@ const router = createBrowserRouter([
 
           try {
             const response = await axios.request(options);
+            console.log(response);
             const problemsArray = response.data.questions;
-            return problemsArray;
+            const loaderData = {
+              problemsArray,
+              userId: response.data.userId,
+              attempted: response.data.attempted,
+              solved: response.data.solved,
+            };
+            return loaderData;
           } catch (error) {
             console.log(error);
             return redirect("/");
@@ -86,7 +93,13 @@ const router = createBrowserRouter([
           try {
             const response = await axios.request(options);
             const question = response.data.question;
-            return question;
+            const loaderData = {
+              question,
+              userId: response.data.userId,
+              attempted: response.data.attempted,
+              solved: response.data.solved,
+            };
+            return loaderData;
           } catch (error) {
             console.log(error);
             return redirect("/");

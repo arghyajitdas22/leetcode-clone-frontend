@@ -6,12 +6,22 @@ import LanguageDropdown from "./LanguageDropdown";
 import { languageOptions } from "../constants/languageOptions";
 import axios from "axios";
 
-const CodeEditor = ({ customInput, customOutput }) => {
+const CodeEditor = ({
+  customInput,
+  customOutput,
+  userId,
+  attempted,
+  solved,
+  questionId,
+}) => {
   const [value, setValue] = useState();
   const [selectedLanguage, setSelectedLanguage] = useState(languageOptions[0]);
   const [state, setState] = useState(false);
   const [isConsoleOpen, setIsConsoleOpen] = useState(false);
   const [outputDetails, setOutputDetails] = useState(null);
+
+  // console.log(attempted);
+  // console.log(solved);
 
   const handleEditorChange = (value, event) => {
     setValue(value);
@@ -50,6 +60,55 @@ const CodeEditor = ({ customInput, customOutput }) => {
         setOutputDetails(response.data);
         getState(response.data.status_id);
         setIsConsoleOpen(true);
+
+        let arr1 = [...attempted];
+        let arr2 = [...solved];
+
+        console.log(arr1);
+        console.log(arr2);
+
+        const index1 = arr1.indexOf(questionId);
+        const index2 = arr2.indexOf(questionId);
+
+        if (response.data.status_id === 3) {
+          if (index1 != -1) {
+            arr1.splice(index1, 1);
+            arr2.push(questionId);
+          } else if (index1 === -1 && index2 === -1) {
+            arr2.push(questionId);
+          }
+        } else {
+          if (index1 === -1 && index2 === -1) {
+            arr1.push(questionId);
+          }
+        }
+
+        console.log(arr1);
+        console.log(arr2);
+
+        const updateData = {
+          attempted: arr1,
+          solved: arr2,
+        };
+
+        const userToken = localStorage.getItem("token");
+
+        const options = {
+          method: "PATCH",
+          url: `http://localhost:3000/api/v1/user/${userId}`,
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+          data: updateData,
+        };
+
+        try {
+          const response = await axios.request(options);
+          const user = response.data;
+          console.log(user);
+        } catch (error) {
+          console.log(error);
+        }
       }
     } catch (error) {
       console.log(error);

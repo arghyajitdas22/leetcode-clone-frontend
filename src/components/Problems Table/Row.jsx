@@ -1,7 +1,9 @@
 import React from "react";
 import { AiOutlineSolution } from "react-icons/ai";
+import { BiAdjust } from "react-icons/bi";
+import { SiNike } from "react-icons/si";
 
-const Row = ({ obj, index, handleClick }) => {
+const Row = ({ obj, index, handleClick, getStatus }) => {
   const textColor = () => {
     if (obj.difficulty === "Easy") {
       return "text-green-500";
@@ -12,13 +14,24 @@ const Row = ({ obj, index, handleClick }) => {
     }
   };
 
+  const getIcon = () => {
+    console.log(obj.status);
+    if (obj.status === "attempted") {
+      return <BiAdjust size={20} color="yellow" />;
+    } else if (obj.status === "solved") {
+      return <SiNike size={20} color="green" />;
+    } else {
+      return "";
+    }
+  };
+
   return (
     <>
       <div
-        className="bg-black pl-2 text-white cursor-pointer mb-3 col-span-1"
+        className="bg-black pl-3 text-white cursor-pointer mb-3 col-span-1"
         onClick={handleClick}
       >
-        {obj.status}
+        {getStatus(obj._id)}
       </div>
       <div
         className="bg-black pl-2 text-white cursor-pointer mb-3 col-span-3 whitespace-nowrap truncate"
@@ -51,3 +64,10 @@ const Row = ({ obj, index, handleClick }) => {
 };
 
 export default Row;
+
+{
+  /* <SiNike /> */
+}
+{
+  /* <BiAdjust /> */
+}

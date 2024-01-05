@@ -5,7 +5,11 @@ import CodeEditor from "../Problem Page Components/CodeEditor";
 import SplitPane from "react-split-pane";
 
 const SingleQuestionPage = () => {
-  const problem = useLoaderData();
+  const loaderData = useLoaderData();
+  const problem = loaderData.question;
+  const userId = loaderData.userId;
+  const attempted = loaderData.attempted;
+  const solved = loaderData.solved;
 
   return (
     <SplitPane
@@ -20,6 +24,10 @@ const SingleQuestionPage = () => {
       <CodeEditor
         customInput={problem.customInput}
         customOutput={problem.customOutput}
+        userId={userId}
+        attempted={attempted}
+        solved={solved}
+        questionId={problem._id}
       />
     </SplitPane>
   );

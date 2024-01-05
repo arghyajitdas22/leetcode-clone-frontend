@@ -1,7 +1,7 @@
 import React from "react";
 
 const QuestionDisplay = ({ problem }) => {
-  const { _id, title, difficulty, status, description, examples, constraints } =
+  const { _id, title, difficulty, description, examples, constraints } =
     problem;
 
   const textColor = () => {
