@@ -95,7 +95,7 @@ const CodeEditor = ({
 
         const options = {
           method: "PATCH",
-          url: `http://localhost:3000/api/v1/user/${userId}`,
+          url: `${import.meta.VITE_BASE_URL}/user/${userId}`,
           headers: {
             Authorization: `Bearer ${userToken}`,
           },
