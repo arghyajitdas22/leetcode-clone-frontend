@@ -5,7 +5,7 @@ import RegisterUserCard from "../Auth Cards/RegisterUserCard";
 import LoginUserCard from "../Auth Cards/LoginUserCard";
 
 const AuthPage = () => {
-  const [toogleAuth, setToogleAuth] = useState(false);
+  const [toogleAuth, setToogleAuth] = useState(true);
 
   const handleClick = () => {
     setToogleAuth(!toogleAuth);
