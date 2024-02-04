@@ -2,7 +2,6 @@ import React from "react";
 import { useLoaderData } from "react-router-dom";
 import QuestionDisplay from "../Problem Page Components/QuestionDisplay";
 import CodeEditor from "../Problem Page Components/CodeEditor";
-import SplitPane from "react-split-pane";
 
 const SingleQuestionPage = () => {
   const loaderData = useLoaderData();
