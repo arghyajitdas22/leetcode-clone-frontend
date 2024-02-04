@@ -19,6 +19,7 @@ const CodeEditor = ({
   const [state, setState] = useState(false);
   const [isConsoleOpen, setIsConsoleOpen] = useState(false);
   const [outputDetails, setOutputDetails] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // console.log(attempted);
   // console.log(solved);
@@ -105,7 +106,7 @@ const CodeEditor = ({
         try {
           const response = await axios.request(options);
           const user = response.data;
-          console.log(user);
+          // console.log(user);
         } catch (error) {
           console.log(error);
         }
@@ -137,12 +138,15 @@ const CodeEditor = ({
     };
 
     try {
+      setIsLoading(true);
       const response = await axios.request(options);
       // console.log(response.data.token);
       const token = response.data.token;
-      checkStatus(token);
+      await checkStatus(token);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -202,6 +206,7 @@ const CodeEditor = ({
             </button> */}
             {/* submit btn */}
             <button
+              disabled={isLoading}
               onClick={handleSubmit}
               className="bg-[#2cbd5d] text-center text-white rounded-[5px] px-5 h-7 font-medium"
             >

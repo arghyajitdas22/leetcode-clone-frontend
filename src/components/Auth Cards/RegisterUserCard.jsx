@@ -29,6 +29,8 @@ const RegisterUserCard = ({ handleClick }) => {
     },
   ];
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmit = async () => {
     const formData = {
       username,
@@ -42,11 +44,16 @@ const RegisterUserCard = ({ handleClick }) => {
       data: formData,
     };
 
-    const response = await axios.request(options);
-
-    localStorage.setItem("token", response.data.token);
-
-    navigate("/questions");
+    try {
+      setIsLoading(true);
+      const response = await axios.request(options);
+      localStorage.setItem("token", response.data.token);
+      navigate("/questions");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -59,7 +66,7 @@ const RegisterUserCard = ({ handleClick }) => {
           setFunc={item.setFunc}
         />
       ))}
-      <BlueBtn text={"Sign Up"} handleClick={onSubmit} />
+      <BlueBtn text={"Sign Up"} handleClick={onSubmit} disabled={isLoading} />
       <p className="w-full flex items-center justify-between text-[#546e7a] text-[14px] font-light">
         <span className="">Alredy have an account?</span>
         <span onClick={handleClick} className="cursor-pointer">

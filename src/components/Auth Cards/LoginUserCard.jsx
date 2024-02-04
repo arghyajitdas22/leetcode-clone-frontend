@@ -3,6 +3,7 @@ import InputBox from "./InputBox";
 import BlueBtn from "./BlueBtn";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { log } from "console";
 
 const LoginUserCard = ({ handleClick }) => {
   const navigate = useNavigate();
@@ -23,6 +24,8 @@ const LoginUserCard = ({ handleClick }) => {
     },
   ];
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmit = async () => {
     const formData = {
       email,
@@ -35,11 +38,16 @@ const LoginUserCard = ({ handleClick }) => {
       data: formData,
     };
 
-    const response = await axios.request(options);
-
-    localStorage.setItem("token", response.data.token);
-
-    navigate("/questions");
+    try {
+      setIsLoading(true);
+      const response = await axios.request(options);
+      localStorage.setItem("token", response.data.token);
+      navigate("/questions");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -52,7 +60,7 @@ const LoginUserCard = ({ handleClick }) => {
           setFunc={item.setFunc}
         />
       ))}
-      <BlueBtn text={"Log In"} handleClick={onSubmit} />
+      <BlueBtn text={"Log In"} handleClick={onSubmit} disabled={isLoading} />
       <p className="w-full flex items-center justify-between text-[#546e7a] text-[14px] font-light">
         <span className="">Forgot password?</span>
         <span onClick={handleClick} className="cursor-pointer">
