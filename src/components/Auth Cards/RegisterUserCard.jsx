@@ -46,7 +46,7 @@ const RegisterUserCard = ({ handleClick }) => {
 
     localStorage.setItem("token", response.data.token);
 
-    // navigate("/questions");
+    navigate("/questions");
   };
 
   return (

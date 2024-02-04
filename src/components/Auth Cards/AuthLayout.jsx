@@ -8,6 +8,10 @@ const AuthLayout = ({ children }) => {
         <Leetcode />
       </div>
       {children}
+      <h1 className="mt-2 text-red-500">
+        Clone to showcase skills please do not give copywright infringement
+        strike
+      </h1>
     </div>
   );
 };
