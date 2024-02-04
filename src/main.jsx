@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       const token = localStorage.getItem("token") || null;
       if (token) {
         const options = {
-          url: `${import.meta.VITE_BASE_URL}/auth/sessionauth`,
+          url: `${import.meta.VITE_BACKEND_BASE_URL}/auth/sessionauth`,
           method: "POST",
           data: { token },
         };
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
 
           const options = {
             method: "GET",
-            url: `${import.meta.VITE_BASE_URL}/questions`,
+            url: `${import.meta.VITE_BACKEND_BASE_URL}/questions`,
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -84,7 +84,7 @@ const router = createBrowserRouter([
 
           const options = {
             method: "GET",
-            url: `${import.meta.VITE_BASE_URL}/questions/${params.id}`,
+            url: `${import.meta.VITE_BACKEND_BASE_URL}/questions/${params.id}`,
             headers: {
               Authorization: `Bearer ${token}`,
             },

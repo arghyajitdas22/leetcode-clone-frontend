@@ -38,7 +38,7 @@ const RegisterUserCard = ({ handleClick }) => {
 
     const options = {
       method: "POST",
-      url: "http://localhost:3000/api/v1/auth/register",
+      url: `${import.meta.VITE_BACKEND_BASE_URL}/auth/register`,
       data: formData,
     };
 

@@ -31,7 +31,7 @@ const LoginUserCard = ({ handleClick }) => {
 
     const options = {
       method: "POST",
-      url: "http://localhost:3000/api/v1/auth/login",
+      url: `${import.meta.VITE_BACKEND_BASE_URL}/auth/login`,
       data: formData,
     };
 
