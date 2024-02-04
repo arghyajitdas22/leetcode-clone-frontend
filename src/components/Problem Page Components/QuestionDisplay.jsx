@@ -15,7 +15,7 @@ const QuestionDisplay = ({ problem }) => {
   };
 
   return (
-    <div className=" rounded-t-xl bg-[#282828] h-[91vh] overflow-y-auto">
+    <div className=" bg-[#282828] h-[91vh] overflow-y-auto w-[40vw] border-r-8 border-[#c5c5c5]">
       {/* header */}
       <div className="bg-[#303030] rounded-t-xl h-8 flex items-center pl-5">
         <span className="text-white text-sm">Problem Statement</span>

@@ -12,14 +12,7 @@ const SingleQuestionPage = () => {
   const solved = loaderData.solved;
 
   return (
-    <SplitPane
-      split="vertical"
-      minSize={375}
-      defaultSize={1100}
-      maxSize={1250}
-      primary="second"
-      style={{ marginTop: "10px", height: "91vh" }}
-    >
+    <div className="flex">
       <QuestionDisplay problem={problem} />
       <CodeEditor
         customInput={problem.customInput}
@@ -29,7 +22,7 @@ const SingleQuestionPage = () => {
         solved={solved}
         questionId={problem._id}
       />
-    </SplitPane>
+    </div>
   );
 };
 

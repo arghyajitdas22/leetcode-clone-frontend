@@ -155,7 +155,7 @@ const CodeEditor = ({
   };
 
   return (
-    <div className="rounded-t-xl bg-[#282828] h-[91vh]">
+    <div className="bg-[#282828] h-[91vh] w-[60vw]">
       {/* header */}
       <div className="bg-[#303030] rounded-t-xl h-8 flex items-center justify-end pr-28">
         {/* <span className="text-white text-sm">Languages Dropdown</span> */}
