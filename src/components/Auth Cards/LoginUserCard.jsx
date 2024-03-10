@@ -58,6 +58,11 @@ const LoginUserCard = ({ handleClick }) => {
           placeholder={item.placeholder}
           key={item.placeholder}
           setFunc={item.setFunc}
+          text={
+            item.type === "password"
+              ? "Password should at least 6 characters"
+              : ""
+          }
         />
       ))}
       <BlueBtn text={"Log In"} handleClick={onSubmit} disabled={isLoading} />

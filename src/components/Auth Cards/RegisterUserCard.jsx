@@ -64,6 +64,11 @@ const RegisterUserCard = ({ handleClick }) => {
           placeholder={item.placeholder}
           key={item.placeholder}
           setFunc={item.setFunc}
+          text={
+            item.type === "password"
+              ? "Password should at least 6 characters"
+              : ""
+          }
         />
       ))}
       <BlueBtn text={"Sign Up"} handleClick={onSubmit} disabled={isLoading} />
